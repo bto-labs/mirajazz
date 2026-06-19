@@ -1,0 +1,14 @@
+# Fifine Ampligame D6 / Mirabox hardware clone udev mapping.
+#
+# Lets a non-root user (in the plugdev group) open the raw HID interface so the
+# ampligame-daemon can run without sudo.
+#
+# Install:
+#   sudo cp 40-fifine-streamdeck.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#
+# Verify your group membership: `groups | grep plugdev` (add yourself with
+#   sudo usermod -aG plugdev "$USER" and re-login if missing).
+
+KERNEL=="hidraw*", ATTRS{idVendor}=="3142", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="3142", MODE="0660", GROUP="plugdev", TAG+="uaccess"
